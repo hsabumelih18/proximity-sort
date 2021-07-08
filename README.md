@@ -10,8 +10,8 @@ We are developing a program, that compares different algorithms for proximity be
 ---
 
 ## Team members and roles
-- Hussein Abumelih - Scrum Trainer / Developer
-- Anton Slavov  - Developer Back-End
+- [Hussein Abumelih](https://github.com/husseinabumelih) - Scrum Trainer / Developer
+- [Anton Slavov](https://github.com/asslavov18)  - Developer Back-End
 
 ---
 
