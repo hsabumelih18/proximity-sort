@@ -43,13 +43,51 @@ namespace proximity_sort
             Console.WriteLine(wordB);
         }
 
+
+
+        static void damerauLevenshtein(string wordA, string wordB)
+        {
+            int minSize = Math.Min(wordA.Length, wordB.Length);
+            Console.WriteLine(wordA);
+            for (int i = 0; i < minSize; i++)
+            {
+                if (wordA[i] != wordB[i])
+                {
+                    if (i != minSize - 1 && wordA[i] == wordB[i + 1] && wordA[i + 1] == wordB[i])
+                    {
+                        Console.WriteLine("swap " + wordA[i] + "," + wordB[i]);
+                        Console.WriteLine(i);
+                        i++;
+                    }
+
+                    else
+                    {
+                        Console.WriteLine(wordA[i] + "->" + wordB[i]);
+                        Console.WriteLine(i);
+                    }
+                }
+            }
+            if (wordA.Length > wordB.Length)
+            {
+                Console.WriteLine("remove " + wordA.Substring(wordB.Length));
+            }
+
+            else if (wordB.Length > wordA.Length)
+            {
+                Console.WriteLine("add " + wordA.Substring(wordB.Length));
+            }
+            Console.WriteLine(wordB);
+        }
+
+
         static void Main(string[] args)
         {
-            string a = "sittingasd";
-            string b = "kitten";
+            string a = "mamka";
+            string b = "amkan";
 
             //Console.WriteLine(hammingDistance(a, b));
-            levenshteinDistance(a, b);
+            //levenshteinDistance(a, b);
+            damerauLevenshtein(a, b);
         }
 
     }
