@@ -79,6 +79,23 @@ namespace proximity_sort
             Console.WriteLine(wordB);
         }
 
+        static Dictionary<char, int> getLetters(string str)
+        {
+            Dictionary<char, int> letterCount = new Dictionary<char, int>();
+            foreach (char letter in str)
+            {
+                if (letterCount.ContainsKey(letter))
+                {
+                    letterCount[letter]++;
+                }
+                else
+                {
+                    letterCount.Add(letter, 1);
+                }
+                
+            }
+            return letterCount;
+        }
 
         static void Main(string[] args)
         {
@@ -87,7 +104,12 @@ namespace proximity_sort
 
             //Console.WriteLine(hammingDistance(a, b));
             //levenshteinDistance(a, b);
-            damerauLevenshtein(a, b);
+            Dictionary<char, int> letterCount = getLetters(a);
+            foreach(KeyValuePair<char, int> letterCountPair in letterCount)
+            {
+                Console.WriteLine(letterCountPair.Key + " " + letterCountPair.Value);
+            }
+            //damerauLevenshtein(a, b);
         }
 
     }
