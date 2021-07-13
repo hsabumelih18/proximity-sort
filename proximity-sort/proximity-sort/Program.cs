@@ -79,6 +79,7 @@ namespace proximity_sort
             Console.WriteLine(wordB);
         }
 
+        //returns a dictionary with the letter a string has
         static Dictionary<char, int> getLetters(string str)
         {
             Dictionary<char, int> letterCount = new Dictionary<char, int>();
@@ -97,6 +98,7 @@ namespace proximity_sort
             return letterCount;
         }
 
+        //returns the amount of letters that appear in two strings at the same time 
         static int getSameLettersCount(string s1, string s2)
         {
             Dictionary<char, int> letterCount1 = getLetters(s1);
@@ -109,7 +111,8 @@ namespace proximity_sort
             {
                 if (letterCount2.ContainsKey(key))
                 {
-                    matchingChar++;
+                    // adds the lesser amount of times a character has been seen in both words
+                    matchingChar+= Math.Min(letterCount1[key], letterCount2[key]);
                 }
             }
             return matchingChar;
