@@ -92,9 +92,27 @@ namespace proximity_sort
                 {
                     letterCount.Add(letter, 1);
                 }
-                
+
             }
             return letterCount;
+        }
+
+        static int getSameLettersCount(string s1, string s2)
+        {
+            Dictionary<char, int> letterCount1 = getLetters(s1);
+            Dictionary<char, int> letterCount2 = getLetters(s2);
+            int matchingChar=0;
+            Dictionary<char, int>.KeyCollection Keys1 = letterCount1.Keys;
+
+            Console.WriteLine();
+            foreach (char key in Keys1)
+            {
+                if (letterCount2.ContainsKey(key))
+                {
+                    matchingChar++;
+                }
+            }
+            return matchingChar;
         }
 
         static void Main(string[] args)
@@ -102,13 +120,15 @@ namespace proximity_sort
             string a = "mamka";
             string b = "amkan";
 
+
+            Console.WriteLine(getSameLettersCount(a, b));
             //Console.WriteLine(hammingDistance(a, b));
             //levenshteinDistance(a, b);
-            Dictionary<char, int> letterCount = getLetters(a);
-            foreach(KeyValuePair<char, int> letterCountPair in letterCount)
-            {
-                Console.WriteLine(letterCountPair.Key + " " + letterCountPair.Value);
-            }
+            //Dictionary<char, int> letterCount = getLetters(a);
+            //foreach (KeyValuePair<char, int> letterCountPair in letterCount)
+            //{
+            //    Console.WriteLine(letterCountPair.Key + " " + letterCountPair.Value);
+            //}
             //damerauLevenshtein(a, b);
         }
 
