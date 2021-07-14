@@ -197,19 +197,86 @@ namespace proximity_sort
             return result;
         }
 
+        static void showWords(string[] words)
+        {
+            for(int i=0;i<words.Length;i++)
+            {
+                Console.WriteLine(i+1+"."+words[i]);
+            }
+            Console.WriteLine("Press any key to continue:");
+            Console.ReadKey();
+        }
+
+        static void printOptions()
+        {
+            Console.WriteLine("----Choose an option----");
+            Console.WriteLine("1.View data");
+            Console.WriteLine("2.Search for a word");
+            Console.WriteLine("3.Leave the program");
+        }
+
+        static int chooseOption()
+        {
+            printOptions();
+            string line = Console.ReadLine();
+            int option = int.Parse(line);
+            while (option != 1 && option != 2 && option != 3)
+            {
+                Console.WriteLine("Enter a valid option!");
+                line = Console.ReadLine();
+                option = int.Parse(line);
+            }
+            return option;
+        }
+
+        static bool Menu(string[] wordList)
+        {
+            Console.Clear();
+            int option = chooseOption();
+            Console.Clear();
+            if(option==1)
+            {
+                showWords(wordList);
+            }
+            if(option==2)
+            {
+                Console.WriteLine("Input a word to search:");
+                string line = Console.ReadLine();
+            }
+            else if(option==3)
+            {
+                return false;
+            }
+            
+
+
+            return true;
+        }
+
+
 
         static void Main(string[] args)
         {
-            string a = "winkler";
-            string b = "welfare";
+            //string a = "winkler";
+            //string b = "welfare";
+            string[] wordList;
 
-
+            wordList = new string[10] {"gradushka", "gradiven", "grad", "grub", "grozen", "greshka", "georgi", "gramaden", "greben", "grah"};
+            while(Menu(wordList))
+            {
+                ;
+            }
+            
+            // Initialization of array
+            //str1 = new string[5] { "Element 1", "Element 2", "a","b","c"};
+            //str1[1] = "asd";
+            //Console.WriteLine(str1[1]);
             //Console.WriteLine(jaroWinkler(a, b));
             //Console.WriteLine(getSameLettersCount(a, b));
             //Console.WriteLine(hammingDistance(a, b));
-            Console.WriteLine(levenshteinDistance(a, b));
-            Console.WriteLine("---------------");
-            Console.WriteLine(damerauLevenshtein(a, b));
+            //Console.WriteLine(levenshteinDistance(a, b));
+            //Console.WriteLine("---------------");
+            //Console.WriteLine(damerauLevenshtein(a, b));
             //Dictionary<char, int> letterCount = getLetters(a);
             //foreach (KeyValuePair<char, int> letterCountPair in letterCount)
             //{
