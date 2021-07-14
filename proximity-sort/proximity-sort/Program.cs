@@ -23,7 +23,7 @@ namespace proximity_sort
 
         static int levenshteinDistance(string wordA, string wordB)
         {
-            int countChanges=0;
+            int countChanges = 0;
             //Console.WriteLine(wordA);
             for (int i = 0; i < Math.Min(wordA.Length, wordB.Length); i++)
             {
@@ -36,13 +36,13 @@ namespace proximity_sort
             if (wordA.Length > wordB.Length)
             {
                 //Console.WriteLine("remove " + wordA.Substring(wordB.Length));
-                countChanges++;
+                countChanges += wordA.Substring(wordB.Length).Length;
             }
 
             else if (wordB.Length > wordA.Length)
             {
                 //Console.WriteLine("add " + wordA.Substring(wordB.Length));
-                countChanges++;
+                countChanges += wordA.Substring(wordB.Length).Length;
             }
             //Console.WriteLine(wordB);
             return countChanges;
@@ -50,38 +50,43 @@ namespace proximity_sort
 
 
 
-        static void damerauLevenshtein(string wordA, string wordB)
+        static int damerauLevenshtein(string wordA, string wordB)
         {
-            int minSize = Math.Min(wordA.Length, wordB.Length);
-            Console.WriteLine(wordA);
+            int minSize = Math.Min(wordA.Length, wordB.Length), countChanges = 0;
+            //Console.WriteLine(wordA);
             for (int i = 0; i < minSize; i++)
             {
                 if (wordA[i] != wordB[i])
                 {
                     if (i != minSize - 1 && wordA[i] == wordB[i + 1] && wordA[i + 1] == wordB[i])
                     {
-                        Console.WriteLine("swap " + wordA[i] + "," + wordB[i]);
-                        Console.WriteLine(i);
+                        //Console.WriteLine("swap " + wordA[i] + "," + wordB[i]);
+                        //Console.WriteLine(i);
+                        countChanges++;
                         i++;
                     }
 
                     else
                     {
-                        Console.WriteLine(wordA[i] + "->" + wordB[i]);
-                        Console.WriteLine(i);
+                        //Console.WriteLine(wordA[i] + "->" + wordB[i]);
+                        //Console.WriteLine(i);
+                        countChanges++;
                     }
                 }
             }
             if (wordA.Length > wordB.Length)
             {
-                Console.WriteLine("remove " + wordA.Substring(wordB.Length));
+                //Console.WriteLine("remove " + wordA.Substring(wordB.Length));
+                countChanges += wordA.Substring(wordB.Length).Length;
             }
 
             else if (wordB.Length > wordA.Length)
             {
-                Console.WriteLine("add " + wordA.Substring(wordB.Length));
+                //Console.WriteLine("add " + wordA.Substring(wordB.Length));
+                countChanges += wordA.Substring(wordB.Length).Length;
             }
-            Console.WriteLine(wordB);
+            // Console.WriteLine(wordB);
+            return countChanges;
         }
 
         //returns a dictionary with the letter a string has
@@ -204,7 +209,7 @@ namespace proximity_sort
             //Console.WriteLine(hammingDistance(a, b));
             Console.WriteLine(levenshteinDistance(a, b));
             Console.WriteLine("---------------");
-            damerauLevenshtein(a, b);
+            Console.WriteLine(damerauLevenshtein(a, b));
             //Dictionary<char, int> letterCount = getLetters(a);
             //foreach (KeyValuePair<char, int> letterCountPair in letterCount)
             //{
