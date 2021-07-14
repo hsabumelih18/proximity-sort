@@ -5,6 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+public class ReverseComparer : IComparer
+{
+    // Call CaseInsensitiveComparer.Compare with the parameters reversed.
+    public int Compare(Object x, Object y)
+    {
+        return (new CaseInsensitiveComparer()).Compare(y, x);
+    }
+}
+
 namespace proximity_sort
 {
 
@@ -15,7 +24,7 @@ namespace proximity_sort
         {
             //int similarities =Math.Abs( wordA.Length - wordB.Length);
             int similarities = 0;
-            for (int i = 0; i < Math.Min(wordA.Length,wordB.Length); i++)
+            for (int i = 0; i < Math.Min(wordA.Length, wordB.Length); i++)
             {
                 if (wordA[i] != wordB[i]) similarities++;
             }
@@ -172,7 +181,6 @@ namespace proximity_sort
                             //Console.WriteLine(/*letterCount1[letter] + " " + */letter);
                             matchingLetters2[count++] = letter;
                             letterCount2[letter]--;
-
                         }
 
                     }
@@ -181,17 +189,17 @@ namespace proximity_sort
             }
             for (int i = 0; i < sameLetters1.Length; i++)
             {
-                Console.WriteLine(sameLetters1[i]);
+                //Console.WriteLine(sameLetters1[i]);
             }
 
             int nonMatchChar = 0, transpositions;
             for (int i = 0; i < sameCount; i++)
             {
-                Console.WriteLine(matchingLetters2[i] + " " + sameLetters1[i]);
+                //Console.WriteLine(matchingLetters2[i] + " " + sameLetters1[i]);
                 if (matchingLetters2[i] != sameLetters1[i]) nonMatchChar++;
             }
             transpositions = nonMatchChar / 2;
-            Console.WriteLine(matchChar + " " + nonMatchChar + " " + transpositions);
+            //Console.WriteLine(matchChar + " " + nonMatchChar + " " + transpositions);
 
             result = ((float)matchChar / (float)Math.Abs(sz1) + (float)matchChar / (float)Math.Abs(sz1)
                 + ((float)matchChar - (float)transpositions) / (float)matchChar) / (float)3;
@@ -201,9 +209,9 @@ namespace proximity_sort
 
         static void showWords(string[] words)
         {
-            for(int i=0;i<words.Length;i++)
+            for (int i = 0; i < words.Length; i++)
             {
-                Console.WriteLine(i+1+"."+words[i]);
+                Console.WriteLine(i + 1 + "." + words[i]);
             }
             Console.WriteLine("Press any key to continue:");
             Console.ReadKey();
@@ -262,22 +270,22 @@ namespace proximity_sort
             return option;
         }
 
-        static void sortByLevenshtein(string wordSearch ,string[] wordList)
+        static void sortByLevenshtein(string wordSearch, string[] wordList)
         {
             int[] metricResults = new int[15];
             int resultCount = 0, result;
             bool[] used = new bool[30];
-            foreach(string word in wordList)
+            foreach (string word in wordList)
             {
                 result = levenshteinDistance(word, wordSearch);
-                if(used[result]==false)
+                if (used[result] == false)
                 {
                     metricResults[resultCount++] = result;
                     used[result] = true;
                 }
             }
             //sorts the array in ascending order
-            Array.Sort(metricResults,0,resultCount);
+            Array.Sort(metricResults, 0, resultCount);
             //for (int i = 0; i < resultCount; i++)
             //{
             //    Console.WriteLine(metricResults[i]);
@@ -323,7 +331,7 @@ namespace proximity_sort
             {
                 foreach (string word in wordList)
                 {
-                    result = levenshteinDistance(word, wordSearch);
+                    result = damerauLevenshtein(word, wordSearch);
                     if (metricResults[i] == result)
                     {
                         Console.WriteLine(wordsOutputed++ + "." + word);
@@ -336,18 +344,72 @@ namespace proximity_sort
             Console.ReadKey();
         }
 
-        
+        static bool isUsed(float[] usedResults, float number)
+        {
+            bool used = false;
+            foreach (float result in usedResults)
+            {
+                if (result == number)
+                {
+                    used = true;
+                    break;
+                }
+            }
+            return used;
+        }
+
+        static void sortByJaro(string wordSearch, string[] wordList)
+        {
+            float[] metricResults = new float[15];
+            float result;
+            int resultCount = 0;
+
+            foreach (string word in wordList)
+            {
+                result = jaroWinkler(word, wordSearch);
+                if (isUsed(metricResults, result) == false)
+                {
+                    metricResults[resultCount++] = result;
+                }
+
+            }
+
+            //for (int i=0;i<resultCount;i++)
+            //{
+            //    Console.WriteLine(metricResults[i]);
+            //}
+            //sorts the array in descending order
+            IComparer revComparer = new ReverseComparer();
+            Array.Sort(metricResults, 0, resultCount, revComparer);
+            Console.Clear();
+            int wordsOutputed = 1;
+            for (int i = 0; i < resultCount; i++)
+            {
+                foreach (string word in wordList)
+                {
+                    result = jaroWinkler(word, wordSearch);
+                    if (metricResults[i] == result)
+                    {
+                        Console.WriteLine(wordsOutputed++ + "." + word);
+                    }
+                }
+            }
+
+
+            Console.WriteLine("Press any key to continue:");
+            Console.ReadKey();
+        }
 
         static void sortByDistance(string[] wordList)
         {
             string wordSearch = askForWord();
             int metricChoice = chooseMetric();
-            
-            if(metricChoice==1)
+
+            if (metricChoice == 1)
             {
                 //we use the levenshtein function call for the hamming distance because the hamming distance
                 //can only be used with words of the same length which is not possible in our cause
-                sortByLevenshtein(wordSearch, wordList); 
+                sortByLevenshtein(wordSearch, wordList);
             }
             else if (metricChoice == 2)
             {
@@ -355,9 +417,12 @@ namespace proximity_sort
             }
             else if (metricChoice == 3)
             {
-                sortByLevenshtein(wordSearch, wordList);
+                sortByDamerau(wordSearch, wordList);
             }
-
+            else
+            {
+                sortByJaro(wordSearch, wordList);
+            }
 
         }
 
@@ -366,19 +431,19 @@ namespace proximity_sort
             Console.Clear();
             int option = chooseOption();
             Console.Clear();
-            if(option==1)
+            if (option == 1)
             {
                 showWords(wordList);
             }
-            if(option==2)
+            if (option == 2)
             {
                 sortByDistance(wordList);
             }
-            else if(option==3)
+            else if (option == 3)
             {
                 return false;
             }
-            
+
 
 
             return true;
