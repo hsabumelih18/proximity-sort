@@ -301,6 +301,43 @@ namespace proximity_sort
             Console.ReadKey();
         }
 
+        static void sortByDamerau(string wordSearch, string[] wordList)
+        {
+            int[] metricResults = new int[15];
+            int resultCount = 0, result;
+            bool[] used = new bool[30];
+            foreach (string word in wordList)
+            {
+                result = damerauLevenshtein(word, wordSearch);
+                if (used[result] == false)
+                {
+                    metricResults[resultCount++] = result;
+                    used[result] = true;
+                }
+            }
+            //sorts the array in ascending order
+            Array.Sort(metricResults, 0, resultCount);
+            Console.Clear();
+            int wordsOutputed = 1;
+            for (int i = 0; i < resultCount; i++)
+            {
+                foreach (string word in wordList)
+                {
+                    result = levenshteinDistance(word, wordSearch);
+                    if (metricResults[i] == result)
+                    {
+                        Console.WriteLine(wordsOutputed++ + "." + word);
+                    }
+                }
+            }
+
+
+            Console.WriteLine("Press any key to continue:");
+            Console.ReadKey();
+        }
+
+        
+
         static void sortByDistance(string[] wordList)
         {
             string wordSearch = askForWord();
@@ -313,6 +350,10 @@ namespace proximity_sort
                 sortByLevenshtein(wordSearch, wordList); 
             }
             else if (metricChoice == 2)
+            {
+                sortByLevenshtein(wordSearch, wordList);
+            }
+            else if (metricChoice == 3)
             {
                 sortByLevenshtein(wordSearch, wordList);
             }
