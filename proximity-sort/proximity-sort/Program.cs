@@ -21,26 +21,31 @@ namespace proximity_sort
             return similarities;
         }
 
-        static void levenshteinDistance(string wordA, string wordB)
+        static int levenshteinDistance(string wordA, string wordB)
         {
-            Console.WriteLine(wordA);
+            int countChanges=0;
+            //Console.WriteLine(wordA);
             for (int i = 0; i < Math.Min(wordA.Length, wordB.Length); i++)
             {
                 if (wordA[i] != wordB[i])
                 {
-                    Console.WriteLine(wordA[i] + "->" + wordB[i]);
+                    //Console.WriteLine(wordA[i] + "->" + wordB[i]);
+                    countChanges++;
                 }
             }
             if (wordA.Length > wordB.Length)
             {
-                Console.WriteLine("remove " + wordA.Substring(wordB.Length));
+                //Console.WriteLine("remove " + wordA.Substring(wordB.Length));
+                countChanges++;
             }
 
             else if (wordB.Length > wordA.Length)
             {
-                Console.WriteLine("add " + wordA.Substring(wordB.Length));
+                //Console.WriteLine("add " + wordA.Substring(wordB.Length));
+                countChanges++;
             }
-            Console.WriteLine(wordB);
+            //Console.WriteLine(wordB);
+            return countChanges;
         }
 
 
@@ -194,10 +199,12 @@ namespace proximity_sort
             string b = "welfare";
 
 
-            Console.WriteLine(jaroWinkler(a, b));
+            //Console.WriteLine(jaroWinkler(a, b));
             //Console.WriteLine(getSameLettersCount(a, b));
             //Console.WriteLine(hammingDistance(a, b));
-            //levenshteinDistance(a, b);
+            Console.WriteLine(levenshteinDistance(a, b));
+            Console.WriteLine("---------------");
+            damerauLevenshtein(a, b);
             //Dictionary<char, int> letterCount = getLetters(a);
             //foreach (KeyValuePair<char, int> letterCountPair in letterCount)
             //{
