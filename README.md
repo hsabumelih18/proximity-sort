@@ -24,5 +24,5 @@ We are developing a program, that compares different algorithms for proximity be
 
  ---
 ## More information
-You will be able to find more information in our [DOCUMENTATION](https://codingburgas-my.sharepoint.com/:w:/r/personal/hsabumelih18_codingburgas_bg/_layouts/15/Doc.aspx?sourcedoc=%7BC9DBBCC6-837C-4A18-9D4E-B0FFE27CC205%7D&file=Aqua-Tech%201%201.docx&action=edit&mobileredirect=true&wdNewAndOpenCt=1625641161332&ct=1625641161332&wdPreviousSession=ca96061b-7949-4e88-a2ba-7f7b58359049&wdOrigin=OFFICECOM-WEB.START.UPLOAD&cid=fcc5e18f-7e6d-48af-b84f-e0cfb8e87c81).
+You will be able to find more information in our [DOCUMENTATION](https://codingburgas-my.sharepoint.com/:w:/g/personal/hsabumelih18_codingburgas_bg/Ea0uYuix_YtAtyL6-MPS_2QBRS4gyV39Se5qnGC7_5Kntg?e=1IxnTc).
 
