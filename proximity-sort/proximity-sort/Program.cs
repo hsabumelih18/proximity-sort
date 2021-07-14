@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace proximity_sort
 {
+
     class Program
     {
         //returns the amount of different characters between two strings with the same size
@@ -13,7 +15,7 @@ namespace proximity_sort
         {
             //int similarities =Math.Abs( wordA.Length - wordB.Length);
             int similarities = 0;
-            for (int i = 0; i < wordA.Length; i++)
+            for (int i = 0; i < Math.Min(wordA.Length,wordB.Length); i++)
             {
                 if (wordA[i] != wordB[i]) similarities++;
             }
@@ -42,7 +44,7 @@ namespace proximity_sort
             else if (wordB.Length > wordA.Length)
             {
                 //Console.WriteLine("add " + wordA.Substring(wordB.Length));
-                countChanges += wordA.Substring(wordB.Length).Length;
+                countChanges += wordB.Substring(wordA.Length).Length;
             }
             //Console.WriteLine(wordB);
             return countChanges;
@@ -83,7 +85,7 @@ namespace proximity_sort
             else if (wordB.Length > wordA.Length)
             {
                 //Console.WriteLine("add " + wordA.Substring(wordB.Length));
-                countChanges += wordA.Substring(wordB.Length).Length;
+                countChanges += wordB.Substring(wordA.Length).Length;
             }
             // Console.WriteLine(wordB);
             return countChanges;
@@ -215,6 +217,14 @@ namespace proximity_sort
             Console.WriteLine("3.Leave the program");
         }
 
+        static string askForWord()
+        {
+            Console.WriteLine("Input a word to search:");
+            string word = Console.ReadLine();
+            Console.Clear();
+            return word;
+        }
+
         static int chooseOption()
         {
             printOptions();
@@ -229,6 +239,87 @@ namespace proximity_sort
             return option;
         }
 
+        static void showMetricOptions()
+        {
+            Console.WriteLine("Choose a string similarity metric:");
+            Console.WriteLine("1.Hamming");
+            Console.WriteLine("2.Levenshtein");
+            Console.WriteLine("3.Damerau-Levenshtein");
+            Console.WriteLine("4.Jaro-Winkler");
+        }
+
+        static int chooseMetric()
+        {
+            showMetricOptions();
+            string line = Console.ReadLine();
+            int option = int.Parse(line);
+            while (option != 1 && option != 2 && option != 3 && option != 4)
+            {
+                Console.WriteLine("Enter a valid option!");
+                line = Console.ReadLine();
+                option = int.Parse(line);
+            }
+            return option;
+        }
+
+        static void sortByLevenshtein(string wordSearch ,string[] wordList)
+        {
+            int[] metricResults = new int[15];
+            int resultCount = 0, result;
+            bool[] used = new bool[30];
+            foreach(string word in wordList)
+            {
+                result = levenshteinDistance(word, wordSearch);
+                if(used[result]==false)
+                {
+                    metricResults[resultCount++] = result;
+                    used[result] = true;
+                }
+            }
+            //sorts the array in ascending order
+            Array.Sort(metricResults,0,resultCount);
+            //for (int i = 0; i < resultCount; i++)
+            //{
+            //    Console.WriteLine(metricResults[i]);
+            //}
+            Console.Clear();
+            int wordsOutputed = 1;
+            for (int i = 0; i < resultCount; i++)
+            {
+                foreach (string word in wordList)
+                {
+                    result = levenshteinDistance(word, wordSearch);
+                    if (metricResults[i] == result)
+                    {
+                        Console.WriteLine(wordsOutputed++ + "." + word);
+                    }
+                }
+            }
+
+
+            Console.WriteLine("Press any key to continue:");
+            Console.ReadKey();
+        }
+
+        static void sortByDistance(string[] wordList)
+        {
+            string wordSearch = askForWord();
+            int metricChoice = chooseMetric();
+            
+            if(metricChoice==1)
+            {
+                //we use the levenshtein function call for the hamming distance because the hamming distance
+                //can only be used with words of the same length which is not possible in our cause
+                sortByLevenshtein(wordSearch, wordList); 
+            }
+            else if (metricChoice == 2)
+            {
+                sortByLevenshtein(wordSearch, wordList);
+            }
+
+
+        }
+
         static bool Menu(string[] wordList)
         {
             Console.Clear();
@@ -240,8 +331,7 @@ namespace proximity_sort
             }
             if(option==2)
             {
-                Console.WriteLine("Input a word to search:");
-                string line = Console.ReadLine();
+                sortByDistance(wordList);
             }
             else if(option==3)
             {
@@ -255,18 +345,20 @@ namespace proximity_sort
 
 
 
+
+
         static void Main(string[] args)
         {
-            //string a = "winkler";
-            //string b = "welfare";
+
             string[] wordList;
 
-            wordList = new string[10] {"gradushka", "gradiven", "grad", "grub", "grozen", "greshka", "georgi", "gramaden", "greben", "grah"};
-            while(Menu(wordList))
+            wordList = new string[10] { "gradushka", "gradiven", "grad", "grub", "grozen", "greshka", "georgi", "gramaden", "greben", "grah" };
+            while (Menu(wordList))
             {
                 ;
             }
-            
+
+
             // Initialization of array
             //str1 = new string[5] { "Element 1", "Element 2", "a","b","c"};
             //str1[1] = "asd";
