@@ -22,8 +22,8 @@ namespace proximity_sort
         //returns the amount of different characters between two strings with the same size
         static int hammingDistance(string wordA, string wordB)
         {
-            //int similarities =Math.Abs( wordA.Length - wordB.Length);
             int similarities = 0;
+
             for (int i = 0; i < Math.Min(wordA.Length, wordB.Length); i++)
             {
                 if (wordA[i] != wordB[i]) similarities++;
@@ -32,71 +32,65 @@ namespace proximity_sort
             return similarities;
         }
 
+        //returns the distance between two words by deleting adding letters
+        //and changing one letter into another
         static int levenshteinDistance(string wordA, string wordB)
         {
             int countChanges = 0;
-            //Console.WriteLine(wordA);
+
             for (int i = 0; i < Math.Min(wordA.Length, wordB.Length); i++)
             {
                 if (wordA[i] != wordB[i])
                 {
-                    //Console.WriteLine(wordA[i] + "->" + wordB[i]);
                     countChanges++;
                 }
             }
+
             if (wordA.Length > wordB.Length)
             {
-                //Console.WriteLine("remove " + wordA.Substring(wordB.Length));
                 countChanges += wordA.Substring(wordB.Length).Length;
             }
 
             else if (wordB.Length > wordA.Length)
             {
-                //Console.WriteLine("add " + wordA.Substring(wordB.Length));
                 countChanges += wordB.Substring(wordA.Length).Length;
             }
-            //Console.WriteLine(wordB);
+
             return countChanges;
         }
 
 
-
+        //adds the option of transpostions to the standart levenshtein metric
         static int damerauLevenshtein(string wordA, string wordB)
         {
             int minSize = Math.Min(wordA.Length, wordB.Length), countChanges = 0;
-            //Console.WriteLine(wordA);
             for (int i = 0; i < minSize; i++)
             {
                 if (wordA[i] != wordB[i])
                 {
                     if (i != minSize - 1 && wordA[i] == wordB[i + 1] && wordA[i + 1] == wordB[i])
                     {
-                        //Console.WriteLine("swap " + wordA[i] + "," + wordB[i]);
-                        //Console.WriteLine(i);
                         countChanges++;
                         i++;
                     }
 
                     else
                     {
-                        //Console.WriteLine(wordA[i] + "->" + wordB[i]);
-                        //Console.WriteLine(i);
                         countChanges++;
                     }
                 }
             }
+
             if (wordA.Length > wordB.Length)
             {
-                //Console.WriteLine("remove " + wordA.Substring(wordB.Length));
                 countChanges += wordA.Substring(wordB.Length).Length;
             }
 
             else if (wordB.Length > wordA.Length)
             {
-                //Console.WriteLine("add " + wordA.Substring(wordB.Length));
                 countChanges += wordB.Substring(wordA.Length).Length;
             }
-            // Console.WriteLine(wordB);
+
             return countChanges;
         }
 
@@ -138,6 +132,9 @@ namespace proximity_sort
             return matchingChar;
         }
 
+
+        //Calculates the distance between two strings by
+        //a formula which results in a fractional (0-1) number
         static float jaroWinkler(string wordA, string wordB)
         {
             float result = 0;
@@ -150,9 +147,9 @@ namespace proximity_sort
             Dictionary<char, int>.KeyCollection Keys2 = letterCount2.Keys;
             char[] sameLetters1 = new char[25];
             char[] sameLetters2 = new char[25];
-
             char[] matchingLetters2 = new char[25];
             int count = 0, sameCount;
+            //stores the keys that appear in both dictionaries
             foreach (char key in Keys1)
             {
                 if (letterCount2.ContainsKey(key))
@@ -178,7 +175,6 @@ namespace proximity_sort
                     {
                         if (letterCount2[letter] > 0)
                         {
-                            //Console.WriteLine(/*letterCount1[letter] + " " + */letter);
                             matchingLetters2[count++] = letter;
                             letterCount2[letter]--;
                         }
@@ -187,19 +183,13 @@ namespace proximity_sort
                 }
 
             }
-            for (int i = 0; i < sameLetters1.Length; i++)
-            {
-                //Console.WriteLine(sameLetters1[i]);
-            }
-
+            //calculates the non mathcing characters at the same position
             int nonMatchChar = 0, transpositions;
             for (int i = 0; i < sameCount; i++)
             {
-                //Console.WriteLine(matchingLetters2[i] + " " + sameLetters1[i]);
                 if (matchingLetters2[i] != sameLetters1[i]) nonMatchChar++;
             }
             transpositions = nonMatchChar / 2;
-            //Console.WriteLine(matchChar + " " + nonMatchChar + " " + transpositions);
 
             result = ((float)matchChar / (float)Math.Abs(sz1) + (float)matchChar / (float)Math.Abs(sz1)
                 + ((float)matchChar - (float)transpositions) / (float)matchChar) / (float)3;
@@ -207,6 +197,7 @@ namespace proximity_sort
             return result;
         }
 
+        //prints the words in an array of strings
         static void showWords(string[] words)
         {
             for (int i = 0; i < words.Length; i++)
@@ -233,6 +224,8 @@ namespace proximity_sort
             return word;
         }
 
+        //makes the user enter a number until it's
+        //either 1,2 or 3. That's later returned
         static int chooseOption()
         {
             printOptions();
@@ -255,7 +248,7 @@ namespace proximity_sort
             Console.WriteLine("3.Damerau-Levenshtein");
             Console.WriteLine("4.Jaro-Winkler");
         }
-
+        //
         static int chooseMetric()
         {
             showMetricOptions();
@@ -270,6 +263,8 @@ namespace proximity_sort
             return option;
         }
 
+        //sorts the words by the distance from the searched
+        //word via the Levenshtein string metric
         static void sortByLevenshtein(string wordSearch, string[] wordList)
         {
             int[] metricResults = new int[15];
@@ -286,10 +281,6 @@ namespace proximity_sort
             }
             //sorts the array in ascending order
             Array.Sort(metricResults, 0, resultCount);
-            //for (int i = 0; i < resultCount; i++)
-            //{
-            //    Console.WriteLine(metricResults[i]);
-            //}
             Console.Clear();
             int wordsOutputed = 1;
             for (int i = 0; i < resultCount; i++)
@@ -374,10 +365,7 @@ namespace proximity_sort
 
             }
 
-            //for (int i=0;i<resultCount;i++)
-            //{
-            //    Console.WriteLine(metricResults[i]);
-            //}
+
             //sorts the array in descending order
             IComparer revComparer = new ReverseComparer();
             Array.Sort(metricResults, 0, resultCount, revComparer);
@@ -400,6 +388,8 @@ namespace proximity_sort
             Console.ReadKey();
         }
 
+        //asks the user which method they would like to
+        //sort the words by and sorts them
         static void sortByDistance(string[] wordList)
         {
             string wordSearch = askForWord();
@@ -459,28 +449,12 @@ namespace proximity_sort
             string[] wordList;
 
             wordList = new string[10] { "gradushka", "gradiven", "grad", "grub", "grozen", "greshka", "georgi", "gramaden", "greben", "grah" };
+            //calls the Menu function until false is returned
+            //which happens only when the user inputs 3
             while (Menu(wordList))
             {
                 ;
             }
-
-
-            // Initialization of array
-            //str1 = new string[5] { "Element 1", "Element 2", "a","b","c"};
-            //str1[1] = "asd";
-            //Console.WriteLine(str1[1]);
-            //Console.WriteLine(jaroWinkler(a, b));
-            //Console.WriteLine(getSameLettersCount(a, b));
-            //Console.WriteLine(hammingDistance(a, b));
-            //Console.WriteLine(levenshteinDistance(a, b));
-            //Console.WriteLine("---------------");
-            //Console.WriteLine(damerauLevenshtein(a, b));
-            //Dictionary<char, int> letterCount = getLetters(a);
-            //foreach (KeyValuePair<char, int> letterCountPair in letterCount)
-            //{
-            //    Console.WriteLine(letterCountPair.Key + " " + letterCountPair.Value);
-            //}
-            //damerauLevenshtein(a, b);
         }
 
     }
