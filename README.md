@@ -5,7 +5,7 @@
 ## WE ARE TEAM PROXIMITY-SORT!
 
 
-We are developing a program, that compares different algorithms for proximity between different words - advantages, disadvantages, speed. It implements a chosen algorithm that searches for a word in a given list and arranges the results according to its proximity to the searched word. You can look through our [presentation](https://codingburgas-my.sharepoint.com/:p:/r/personal/hsabumelih18_codingburgas_bg/_layouts/15/Doc.aspx?sourcedoc=%7B8D3ACDD6-8441-4158-8268-34350D56BC1C%7D&file=Aqua-Tech%201.pptx&action=edit&mobileredirect=true&wdNewAndOpenCt=1625638672874&ct=1625638672874&wdPreviousSession=9e5f89d9-d01b-4e89-bef0-d6f693906aca&wdOrigin=OFFICECOM-WEB.MAIN.UPLOAD&cid=98a4c2e4-21aa-4236-a153-0ec7809c7037) for a better introduction.
+We are developing a program, that compares different algorithms for proximity between different words - advantages, disadvantages, speed. It implements a chosen algorithm that searches for a word in a given list and arranges the results according to its proximity to the searched word. You can look through our [presentation](https://codingburgas-my.sharepoint.com/:p:/g/personal/hsabumelih18_codingburgas_bg/EdbNOo1BhFhBgmg0NQ1WvBwByEGUBr8dviMz7xt987JVYA?e=SSN4d8) for a better introduction.
 
 ---
 
@@ -24,5 +24,5 @@ We are developing a program, that compares different algorithms for proximity be
 
  ---
 ## More information
-You will be able to find more information in our [DOCUMENTATION](https://codingburgas-my.sharepoint.com/:w:/g/personal/hsabumelih18_codingburgas_bg/Ea0uYuix_YtAtyL6-MPS_2QBRS4gyV39Se5qnGC7_5Kntg?e=1IxnTc).
+You will be able to find more information in our [DOCUMENTATION](https://codingburgas-my.sharepoint.com/:w:/g/personal/hsabumelih18_codingburgas_bg/Ea0uYuix_YtAtyL6-MPS_2QBRS4gyV39Se5qnGC7_5Kntg?e=9QoVFk).
 
